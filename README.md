@@ -57,3 +57,16 @@ docker run -d \
 
 ## Settings in Jellyfin
 Under server administration in `Server > Playback` the `Hardware acceleration` can be set to `Video Acceleration API (VAAPI)` and the `VA API Device` has to be set to the device given in the Docker configuration. For example `/dev/dri/renderD128`.
+
+## Building the image
+```
+docker build --no-cache -t pascalminder/jellyfin-amd .
+```
+
+```
+docker tag pascalminder/jellyfin-amd pascalminder/jellyfin-amd:latest
+```
+
+```
+docker push pascalminder/jellyfin-amd:latest
+```
