@@ -8,7 +8,7 @@ RUN \
    mesa-vdpau-gallium mesa-va-gallium mesa-vdpau-gallium libdrm
 
 # copy local files
-COPY root/ /root-layer/
+# COPY root/ /root-layer/
 
 # Single layer deployed image ##
 FROM scratch
@@ -16,4 +16,4 @@ FROM scratch
 LABEL maintainer="PascalMinder"
 
 # Add files from buildstage
-COPY --from=buildstage /root-layer/ /
+# COPY --from=buildstage /root-layer/ /
