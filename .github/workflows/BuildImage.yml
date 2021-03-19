@@ -3,9 +3,9 @@ name: Build Image
 on: [push, pull_request, workflow_dispatch]
 
 env:
-  ENDPOINT: "pascalminder/jellyfin-amd"
+  ENDPOINT: "linuxserver/mods" #don't modify
   BASEIMAGE: "jellyfin"
-  MODNAME: "amd-dev"
+  MODNAME: "amd"
 
 jobs:
   build:
