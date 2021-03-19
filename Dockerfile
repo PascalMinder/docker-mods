@@ -1,16 +1,19 @@
-FROM linuxserver/jellyfin:latest
+# Buildstage
+FROM ghcr.io/linuxserver/baseimage-alpine:3.12 as buildstage
+
+# Install at least mesa 20.1
+RUN \
+   echo "**** install packages ****" && \
+   apk add --no-cache \
+   mesa-vdpau-gallium mesa-va-gallium mesa-vdpau-gallium libdrm
+
+# copy local files
+COPY root/ /root-layer/
+
+# Single layer deployed image ##
+FROM scratch
 
 LABEL maintainer="PascalMinder"
 
-# Install mesa 20.1
-RUN \
-   apt-get update  \
-   # upgrades jellyfin, which overrides a config file
-   # https://unix.stackexchange.com/questions/416815/force-non-interactive-dpkg-configure-when-using-apt-get-install
-   && apt-get upgrade -y --option=Dpkg::Options::=--force-confdef \
-   && apt-get install -y gpg \
-   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F63F0F2B90935439 \
-   && echo "deb http://ppa.launchpad.net/kisak/kisak-mesa/ubuntu focal main" > /etc/apt/sources.list.d/kisak-ubuntu-kisak-mesa-bionic.list \
-   && apt-get update \
-   && apt-get -y install mesa-vdpau-drivers mesa-va-drivers mesa-vdpau-drivers libdrm-radeon1 \
-   && apt-get -y upgrade
+# Add files from buildstage
+COPY --from=buildstage /root-layer/ /
